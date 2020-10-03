@@ -9,7 +9,13 @@ export default class Month extends React.Component {
 
     this.state = {
       currentWeekIndex: this._getStartingWeek(props.currentDate, props.weeks),
+      weekIndex: 0,
     };
+
+    this._renderNextButton = this._renderNextButton.bind(this);
+    this._renderPreviousButton = this._renderPreviousButton.bind(this);
+    this._onNextWeekClicked = this._onNextWeekClicked.bind(this);
+    this._onPrevWeekClicked = this._onPrevWeekClicked.bind(this);
   }
 
   _getStartingWeek(currentDate, weeks) {
@@ -41,9 +47,36 @@ export default class Month extends React.Component {
     );
   }
 
+  _renderNextButton(renderWeeks) {
+    if ( !renderWeeks || renderWeeks == 0 ) {
+      return (<div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--right" onClick = { () => this._onNextWeekClicked() }>
+                &#8250;
+              </div>);
+    }
+
+    return (this.state.weekIndex <= renderWeeks) ? (
+      <div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--right" onClick = { () => this._onNextWeekClicked() }>
+        &#8250;
+      </div>): <div></div>;
+  }
+
+  _renderPreviousButton(renderWeeks) {
+    if ( !renderWeeks || renderWeeks == 0 ) {
+      return (<div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--left" onClick = { () => this._onPrevWeekClicked() }>
+                &#8249;
+              </div>);
+    }
+
+    return this.state.weekIndex >= -renderWeeks ? (
+      <div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--left" onClick = { () => this._onPrevWeekClicked() }>
+        &#8249;
+      </div>) : <div></div>;
+  }
+
   _renderActions() {
     const {
       weeks,
+      renderWeeks,
     } = this.props;
 
     const {
@@ -55,17 +88,14 @@ export default class Month extends React.Component {
     const endDate = helpers.getMomentFromCalendarJSDateElement(currentWeek[currentWeek.length - 1]);
     const actionTitle = `${startDate.format('MMM Do')} - ${endDate.format('MMM Do')}`;
 
+
     return (
       <div className = "tsc-month__actions">
-        <div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--left" onClick = { this._onPrevWeekClicked.bind(this) }>
-          &#8249;
-        </div>
+        {this._renderPreviousButton(renderWeeks)}
         <div className = "tsc-month__action tsc-month__action-title">
           { actionTitle }
         </div>
-        <div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--right" onClick = { this._onNextWeekClicked.bind(this) }>
-          &#8250;
-        </div>
+        {this._renderNextButton(renderWeeks)}
       </div>
     );
   }
@@ -118,6 +148,7 @@ export default class Month extends React.Component {
     const {
       onWeekOutOfMonth,
       weeks,
+      onPressPreviousWeek,
     } = this.props;
 
     if (currentWeekIndex - 1 >= 0) {
@@ -128,6 +159,11 @@ export default class Month extends React.Component {
     else if (onWeekOutOfMonth) {
       const firstDayOfPrevWeek = helpers.getMomentFromCalendarJSDateElement(weeks[0][0]).clone().subtract(1, 'days');
       onWeekOutOfMonth(firstDayOfPrevWeek);
+    }
+    this.setState({weekIndex: this.state.weekIndex - 1 });
+
+    if (onPressPreviousWeek) {
+      onPressPreviousWeek();
     }
   }
 
@@ -142,6 +178,7 @@ export default class Month extends React.Component {
     const {
       weeks,
       onWeekOutOfMonth,
+      onPressNextWeek,
     } = this.props;
 
     if (currentWeekIndex + 1 < weeks.length) {
@@ -153,6 +190,10 @@ export default class Month extends React.Component {
       const lastDay = weeks[currentWeekIndex].length - 1;
       const firstDayOfNextWeek = helpers.getMomentFromCalendarJSDateElement(weeks[currentWeekIndex][lastDay]).clone().add(1, 'days');
       onWeekOutOfMonth(firstDayOfNextWeek);
+    }
+    this.setState({weekIndex: this.state.weekIndex + 1 });
+    if (onPressNextWeek){
+      onPressNextWeek();
     }
   }
 
@@ -186,4 +227,7 @@ Month.propTypes = {
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
   renderDays: PropTypes.object,
+  onPressNextWeek: PropTypes.func,
+  onPressPreviousWeek: PropTypes.func,
+  renderWeeks: PropTypes.func,
 };

@@ -60,6 +60,9 @@ export default class Calendar extends React.Component {
     const {
       timeslots,
       initialDate,
+      renderWeeks,
+      onPressNextWeek,
+      onPressPreviousWeek,
     } = this.props;
 
     const cal = new CalendarJS(currentDate.year(), currentDate.month() + 1);
@@ -77,6 +80,9 @@ export default class Calendar extends React.Component {
         selectedTimeslots = { selectedTimeslots }
         disabledTimeslots = { this._formatDisabledTimeslots() }
         renderDays = { this.renderDays }
+        renderWeeks = { renderWeeks }
+        onPressNextWeek = { onPressNextWeek }
+        onPressPreviousWeek = { onPressPreviousWeek }
       />
     );
   }
@@ -286,4 +292,7 @@ Calendar.propTypes = {
   startDateInputProps: PropTypes.object,
   endDateInputProps: PropTypes.object,
   onSelectTimeslot: PropTypes.func,
+  renderWeeks: PropTypes.func,
+  onPressNextWeek: PropTypes.func,
+  onPressPreviousWeek: PropTypes.func,
 };

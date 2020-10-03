@@ -47,4 +47,7 @@ ReactTimeslotCalendar.propTypes = {
   startDateInputProps: PropTypes.object,
   endDateInputProps: PropTypes.object,
   onSelectTimeslot: PropTypes.func,
+  renderWeeks: PropTypes.func,
+  onPressNextWeek: PropTypes.func,
+  onPressPreviousWeek: PropTypes.func,
 };

@@ -72,4 +72,7 @@ Week.propTypes = {
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
   renderDays: PropTypes.object,
+  renderWeeks: PropTypes.func,
+  onPressNextWeek: PropTypes.func,
+  onPressPreviousWeek: PropTypes.func,
 };
