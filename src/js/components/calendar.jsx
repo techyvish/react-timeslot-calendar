@@ -38,15 +38,15 @@ export default class Calendar extends React.Component {
 
     return (
       <div className = "tsc-calendar__actions">
-        <div className = "tsc-calendar__action tsc-calendar__action-element tsc-calendar__action-element--left" onClick = { this._onGoToPrevMonth.bind(this) }>
+        {/* <div className = "tsc-calendar__action tsc-calendar__action-element tsc-calendar__action-element--left" onClick = { this._onGoToPrevMonth.bind(this) }>
           &#8249;
-        </div>
+        </div> */}
         <div className = "tsc-calendar__action tsc-calendar__action-title">
           { actionTitle }
         </div>
-        <div className = "tsc-calendar__action tsc-calendar__action-element tsc-calendar__action-element--right" onClick = { this._onGoToNextMonth.bind(this) }>
+        {/* <div className = "tsc-calendar__action tsc-calendar__action-element tsc-calendar__action-element--right" onClick = { this._onGoToNextMonth.bind(this) }>
           &#8250;
-        </div>
+        </div> */}
       </div>
     );
   }
