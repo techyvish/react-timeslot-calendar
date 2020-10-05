@@ -6,6 +6,7 @@ import {
   DEFAULT,
   SELECTED,
   DISABLED,
+  BOOKED,
 } from '../constants/timeslot.js';
 
 export default class Timeslot extends React.Component {
@@ -14,17 +15,26 @@ export default class Timeslot extends React.Component {
       description,
       status,
       customClassNames,
+      data,
     } = this.props;
 
     const timeslotClassNames = classnames({
       'tsc-timeslot': true,
       'tsc-timeslot--selected': status == SELECTED,
       'tsc-timeslot--disabled': status == DISABLED,
+      'tsc-timeslot--booked': status == BOOKED,
+    }, customClassNames);
+
+    const timeslotContentClassNames = classnames({
+      'tsc-timeslot--content': true,
     }, customClassNames);
 
     return (
       <div className = { timeslotClassNames } onClick = { this._onTimeslotClick.bind(this) }>
+        <div>
         { description }
+        </div>
+        <div className = { timeslotContentClassNames } >{data}</div>
       </div>
     );
   }
@@ -63,4 +73,5 @@ Timeslot.propTypes = {
     PropTypes.string,
     PropTypes.object,
   ]),
+  data: PropTypes.string,
 };

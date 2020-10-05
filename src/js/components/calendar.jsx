@@ -79,6 +79,7 @@ export default class Calendar extends React.Component {
         timeslotProps = { this.timeslotProps }
         selectedTimeslots = { selectedTimeslots }
         disabledTimeslots = { this._formatDisabledTimeslots() }
+        bookedTimeslots = { this._formatBookedTimeslots() }
         renderDays = { this.renderDays }
         renderWeeks = { renderWeeks }
         onPressNextWeek = { onPressNextWeek }
@@ -164,6 +165,20 @@ export default class Calendar extends React.Component {
     } = this.props;
 
     return disabledTimeslots.map((timeslot) => {
+      let timeslotMoment = Object.assign({}, timeslot);
+      timeslotMoment.startDate = moment(timeslotMoment.startDate, timeslotMoment.format);
+      timeslotMoment.endDate = moment(timeslotMoment.endDate, timeslotMoment.format);
+
+      return timeslotMoment;
+    });
+  }
+
+  _formatBookedTimeslots() {
+    const {
+      bookedTimeslots,
+    } = this.props;
+
+    return bookedTimeslots.map((timeslot) => {
       let timeslotMoment = Object.assign({}, timeslot);
       timeslotMoment.startDate = moment(timeslotMoment.startDate, timeslotMoment.format);
       timeslotMoment.endDate = moment(timeslotMoment.endDate, timeslotMoment.format);
@@ -262,6 +277,7 @@ export default class Calendar extends React.Component {
 
 Calendar.defaultProps = {
   disabledTimeslots: [],
+  bookedTimeslots: [],
   maxTimeslots: 1,
   inputProps: {
     names: {},
@@ -287,6 +303,7 @@ Calendar.propTypes = {
   timeslotProps: PropTypes.object,
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
+  bookedTimeslots: PropTypes.array,
   maxTimeslots: PropTypes.number,
   renderDays: PropTypes.object,
   startDateInputProps: PropTypes.object,

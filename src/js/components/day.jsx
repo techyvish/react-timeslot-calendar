@@ -13,6 +13,7 @@ import {
   DEFAULT,
   DISABLED,
   SELECTED,
+  BOOKED,
 } from '../constants/timeslot.js';
 
 export default class Day extends React.Component {
@@ -49,8 +50,10 @@ export default class Day extends React.Component {
       timeslotProps,
       selectedTimeslots,
       disabledTimeslots,
+      bookedTimeslots,
       momentTime,
       initialDate,
+      data,
     } = this.props;
 
     return timeslots.map((slot, index) => {
@@ -80,13 +83,20 @@ export default class Day extends React.Component {
                disabledTimeslot.endDate.isBetween(timeslotDates.startDate, timeslotDates.endDate, null, '(]');
       });
 
+      const isBooked = bookedTimeslots.some((bookedTimeSlot) => {
+        return bookedTimeSlot.startDate.isBetween(timeslotDates.startDate, timeslotDates.endDate, null, '[)') ||
+        bookedTimeSlot.endDate.isBetween(timeslotDates.startDate, timeslotDates.endDate, null, '(]');
+      });
+
       if (isDisabled) {
         status = DISABLED;
       }
       else if (isSelected) {
         status = SELECTED;
       }
-
+      else if (isBooked) {
+        status = BOOKED;
+      }
 
       return (
         <Timeslot
@@ -94,6 +104,7 @@ export default class Day extends React.Component {
           description = { description }
           onClick = { this._onTimeslotClick.bind(this, index) }
           status = { status }
+          data = { data }
         />
       );
     });
@@ -141,10 +152,12 @@ Day.propTypes = {
   timeslotProps: PropTypes.object,
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
+  bookedTimeslots: PropTypes.array,
   timeslotFormat: PropTypes.string.isRequired,
   timeslotShowFormat: PropTypes.string.isRequired,
   onTimeslotClick: PropTypes.func.isRequired,
   renderTitle: PropTypes.func.isRequired,
   momentTime: PropTypes.object.isRequired,
   initialDate: PropTypes.object.isRequired,
+  data: PropTypes.string,
 };

@@ -21,6 +21,7 @@ export default class Week extends React.Component {
       timeslotProps,
       selectedTimeslots,
       disabledTimeslots,
+      bookedTimeslots,
       renderDays,
     } = this.props;
 
@@ -37,6 +38,7 @@ export default class Week extends React.Component {
             timeslotProps = { timeslotProps }
             selectedTimeslots = { selectedTimeslots }
             disabledTimeslots = { disabledTimeslots }
+            bookedTimeslots = { bookedTimeslots }
             momentTime = { formattedDate }
             />
         );
@@ -71,6 +73,7 @@ Week.propTypes = {
   timeslotProps: PropTypes.object,
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
+  bookedTimeslots: PropTypes.array,
   renderDays: PropTypes.object,
   renderWeeks: PropTypes.func,
   onPressNextWeek: PropTypes.func,

@@ -9,7 +9,7 @@ export default class Month extends React.Component {
 
     this.state = {
       currentWeekIndex: this._getStartingWeek(props.currentDate, props.weeks),
-      weekIndex: 0,
+      weeksToRenderCount: 0,
     };
 
     this._renderNextButton = this._renderNextButton.bind(this);
@@ -54,7 +54,7 @@ export default class Month extends React.Component {
               </div>);
     }
 
-    return (this.state.weekIndex <= renderWeeks) ? (
+    return (this.state.weeksToRenderCount <= renderWeeks) ? (
       <div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--right" onClick = { () => this._onNextWeekClicked() }>
         &#8250;
       </div>): <div></div>;
@@ -67,7 +67,7 @@ export default class Month extends React.Component {
               </div>);
     }
 
-    return this.state.weekIndex >= -renderWeeks ? (
+    return this.state.weeksToRenderCount >= -renderWeeks ? (
       <div className = "tsc-month__action tsc-month__action-element tsc-month__action-element--left" onClick = { () => this._onPrevWeekClicked() }>
         &#8249;
       </div>) : <div></div>;
@@ -113,8 +113,12 @@ export default class Month extends React.Component {
       selectedTimeslots,
       disabledTimeslots,
       renderDays,
+      bookedTimeslots,
     } = this.props;
 
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    console.log(currentWeekIndex);
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     return (
       <Week
         weekToRender = { weeks[currentWeekIndex] }
@@ -124,6 +128,7 @@ export default class Month extends React.Component {
         timeslotProps = { timeslotProps }
         selectedTimeslots = { selectedTimeslots }
         disabledTimeslots = { disabledTimeslots }
+        bookedTimeslots = { bookedTimeslots }
         renderDays = { renderDays }
       />
     );
@@ -140,6 +145,7 @@ export default class Month extends React.Component {
   /**
    * Handles prev week button click.
    */
+  // eslint-disable
   _onPrevWeekClicked() {
     const {
       currentWeekIndex,
@@ -160,7 +166,7 @@ export default class Month extends React.Component {
       const firstDayOfPrevWeek = helpers.getMomentFromCalendarJSDateElement(weeks[0][0]).clone().subtract(1, 'days');
       onWeekOutOfMonth(firstDayOfPrevWeek);
     }
-    this.setState({weekIndex: this.state.weekIndex - 1 });
+    this.setState({weeksToRenderCount: this.state.weeksToRenderCount - 1 });
 
     if (onPressPreviousWeek) {
       onPressPreviousWeek();
@@ -189,9 +195,10 @@ export default class Month extends React.Component {
     else if (onWeekOutOfMonth) {
       const lastDay = weeks[currentWeekIndex].length - 1;
       const firstDayOfNextWeek = helpers.getMomentFromCalendarJSDateElement(weeks[currentWeekIndex][lastDay]).clone().add(1, 'days');
+      console.log(firstDayOfNextWeek);
       onWeekOutOfMonth(firstDayOfNextWeek);
     }
-    this.setState({weekIndex: this.state.weekIndex + 1 });
+    this.setState({weeksToRenderCount: this.state.weeksToRenderCount + 1 });
     if (onPressNextWeek){
       onPressNextWeek();
     }
@@ -226,6 +233,7 @@ Month.propTypes = {
   timeslotProps: PropTypes.object,
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
+  bookedTimeslots: PropTypes.array,
   renderDays: PropTypes.object,
   onPressNextWeek: PropTypes.func,
   onPressPreviousWeek: PropTypes.func,

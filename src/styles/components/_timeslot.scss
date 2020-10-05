@@ -6,7 +6,7 @@
 .tsc-timeslot {
   display: flex;
   flex: 1;
-  justify-content: center;
+  margin-top: 2em;
   padding: 1em;
   font-size: 0.9em;
   background-color: $timeslot-default-bg-color;
@@ -17,6 +17,9 @@
   font-family: $timeslot-fonts;
   color: $timeslot-default-color;
   box-shadow: 0 0.0625em 0.188em rgba(0,0,0,0.12), 0 0.0625em 0.125em rgba(0,0,0,0.24);
+  flex-direction: column;
+  // justify-content: 'center';
+  // align-items: 'flex-strart';
 
   &:not(.tsc-timeslot--disabled) {
     cursor: pointer;
@@ -34,4 +37,21 @@
 .tsc-timeslot--disabled {
   background-color: $timeslot-disabled-bg-color;
   color: $timeslot-disabled-color;
+}
+
+.tsc-timeslot--booked {
+  color: white;
+  background: repeating-linear-gradient(
+    135deg,
+    #606dbc,
+    #606dbc 10px,
+    #465298 10px,
+    #465298 20px
+  );
+}
+
+.tsc-timeslot--content {
+  margin: 10px;
+  border-color: black;
+  border-width: 1px;
 }

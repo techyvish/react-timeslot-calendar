@@ -42,6 +42,7 @@ ReactTimeslotCalendar.propTypes = {
   timeslotProps: PropTypes.object,
   selectedTimeslots: PropTypes.array,
   disabledTimeslots: PropTypes.array,
+  bookedTimeslots: PropTypes.array,
   maxTimeslots: PropTypes.number,
   renderDays: PropTypes.object,
   startDateInputProps: PropTypes.object,

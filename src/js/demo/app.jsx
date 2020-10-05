@@ -10,8 +10,11 @@ export default class App extends React.Component {
     super(props);
 
     this.initialDate = moment();
-
+    this.state = {
+      bookedDates: [ ],
+    };
   }
+
   render() {
     return (
       <div className = "app">
@@ -27,9 +30,9 @@ export default class App extends React.Component {
         <ReactTimeslotCalendar
           initialDate = { this.initialDate.format() }
           timeslots = { [
-            ['9', '10'],
-            ['10', '11'],
-            ['18'],
+            ['21', '22'],
+            ['22', '23'],
+            ['24', '1'],
           ] }
           maxTimeslots = { 3 }
           onSelectTimeslot = { (timeslots, lastSelected) => {
@@ -39,12 +42,13 @@ export default class App extends React.Component {
             console.log('Last selected timeslot:');
             console.log(lastSelected);
           } }
-          renderWeeks = { 1 }
-          onPressPreviousWeek = { () => {
-            console.log('p');
+          renderWeeks = { 4 }
+          bookedTimeslots = { this.state.bookedDates }
+          onPressPreviousWeek = { (startOfTheWeek) => {
+            console.log(startOfTheWeek);
           } }
-          onPressNextWeek = { () => {
-            console.log('n');
+          onPressNextWeek = { (startOfTheWeek) => {
+            console.log(startOfTheWeek);
           } }
         />
       </div>
@@ -55,3 +59,14 @@ export default class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('react-timeslot-calendar'));
+
+// [
+//   {
+//     startDate: 'October 5th 2020, 9:00:00 PM',
+//     format: 'MMMM Do YYYY, h:mm:ss A',
+//   },
+//   {
+//     startDate: 'October 8th 2020, 10:00:00 PM',
+//     format: 'MMMM Do YYYY, h:mm:ss A',
+//   },
+// ]
